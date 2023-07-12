@@ -1,0 +1,6 @@
+Django==3.2.19
+djangorestframework==3.14.0
+django-apscheduler==0.6.2
+PyMySQL==1.1.0
+pydantic==2.0.2
+APScheduler==3.10.1
