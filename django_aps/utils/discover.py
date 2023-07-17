@@ -10,8 +10,8 @@ from typing import List
 
 from django.apps import apps
 
-from aps.settings import aps_settings
-from aps.utils.register import Register
+from django_aps.settings import aps_settings
+from django_aps.utils.register import Register
 
 logger = logging.getLogger(__name__)
 

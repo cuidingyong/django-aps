@@ -2,6 +2,8 @@ from django.db import models
 
 
 # Create your models here.
+
+
 class BaseModel(models.Model):
     class Meta:
         abstract = True
@@ -27,19 +29,19 @@ class ApschedulerFunc(models.Model):
     func_args = models.CharField(max_length=128, verbose_name='函数、方法参数')
     func_doc = models.CharField(max_length=256, null=True, verbose_name='描述信息')
 
-
-class ApschedulerJobInfo(models.Model):
-    class Meta:
-        db_table = 'django_apscheduler_job_info'
-        verbose_name = '定时任务配置表'
-        verbose_name_plural = verbose_name
-
-    name = models.CharField(max_length=128, unique=True, db_index=True, verbose_name='定时任务名称')
-    job_id = models.CharField(max_length=128, db_index=True, null=True, blank=True, verbose_name='定时任务执行id')
-    func_ref = models.CharField(max_length=256, verbose_name='函数、方法所属模块')
-    func_name = models.CharField(max_length=128, verbose_name='函数、方法名')
-    func_args = models.CharField(max_length=128, verbose_name='函数、方法参数')
-    func_kwargs = models.CharField(max_length=256, verbose_name='函数、方法关键字参数')
-    trigger_type = models.CharField(max_length=64, verbose_name='触发器类型')
-    trigger_params = models.JSONField(null=True, blank=True, verbose_name='触发器参数')
-    description = models.CharField(max_length=256, null=True, blank=True, verbose_name='描述信息')
+# class ApschedulerJobInfo(BaseModel):
+#     class Meta:
+#         db_table = 'django_apscheduler_job_info'
+#         verbose_name = '定时任务配置表'
+#         verbose_name_plural = verbose_name
+#
+#     name = models.CharField(max_length=128, unique=True, db_index=True, verbose_name='定时任务名称')
+#     job_id = models.CharField(max_length=128, db_index=True, null=True, blank=True, verbose_name='定时任务执行id')
+#     func_ref = models.CharField(max_length=256, verbose_name='函数、方法所属模块')
+#     func_name = models.CharField(max_length=128, verbose_name='函数、方法名')
+#     func_args = models.CharField(max_length=128, verbose_name='函数、方法参数')
+#     func_kwargs = models.CharField(max_length=256, verbose_name='函数、方法关键字参数')
+#     trigger_type = models.CharField(max_length=64, verbose_name='触发器类型')
+#     trigger_params = models.JSONField(null=True, blank=True, verbose_name='触发器参数')
+#     job_status = models.CharField(max_length=64, null=True, blank=True, verbose_name='任务状态')
+#     description = models.CharField(max_length=256, null=True, blank=True, verbose_name='描述信息')

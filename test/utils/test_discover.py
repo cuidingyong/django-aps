@@ -17,12 +17,12 @@ def setup_module():
     import os
     import django
 
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_aps.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_aps1.settings')
     django.setup()
 
 
 def test_autodiscover_aps():
-    from aps.utils.discover import autodiscover_aps
+    from django_aps.utils.discover import autodiscover_aps
     aps = autodiscover_aps()
     print(aps)
 

@@ -1,24 +1,17 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
--------------------------------------------------
-   File Name：      discover_service
-   Description:
-   Author:          dingyong.cui
-   date：           2023/7/6
--------------------------------------------------
-   Change Activity:
-                    2023/7/6
--------------------------------------------------
+Discover service
 """
+import logging
 from typing import List, Dict
 
 from django.db import transaction
 
-from aps.repository import apscheduler_func_model_mapper
-from aps.settings import aps_settings
-from aps.utils.common import check_table_exist
-from aps.utils.discover import autodiscover_aps
+from django_aps.repository import apscheduler_func_model_mapper
+from django_aps.settings import aps_settings
+from django_aps.utils.common import check_table_exist
+from django_aps.utils.discover import autodiscover_aps
+
+logger = logging.getLogger(__name__)
 
 
 class DiscoverService:
@@ -43,7 +36,7 @@ class DiscoverService:
     def discover_apscheduler(name: str = None) -> List[Dict]:
         """ Discover apscheduler functions
 
-        param: name - which function name contain it
+        :param str name: which function name contain it
         """
         aps_funcs = autodiscover_aps()
         if name is None:
@@ -55,12 +48,20 @@ class DiscoverService:
 
         return aps_name_funcs
 
-    @classmethod
-    def sync_aps_to_db(cls):
-        """ Synchronize auto discover aps function to the database
+    def sync_aps_to_db(self):
+        """
+        Synchronize auto discover django_aps function to the database
 
         """
+        if self.schema != 'database':
+            logger.warning(f'Skip sync because current schema is {self.schema} not equal database.')
+            return
+        if not check_table_exist('django_apscheduler_func'):
+            logger.warning('Skip sync because table "django_apscheduler_func" does not exist.')
+            return
+        logger.info('Start sync apscheduler func to database.')
         aps_funcs = autodiscover_aps()
         with transaction.atomic():
             apscheduler_func_model_mapper.delete_aps_funcs(is_all=True)
             apscheduler_func_model_mapper.save_aps_funcs(aps_funcs)
+        logger.info('apscheduler func has been synchronized.')

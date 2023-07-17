@@ -5,7 +5,7 @@ from django.apps import AppConfig
 
 class ApsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "aps"
+    name = "django_aps"
 
     def ready(self):
         run_once = os.environ.get('CMDLINE_RUNNER_RUN_ONCE')
@@ -17,7 +17,5 @@ class ApsConfig(AppConfig):
 
 
 def _sync_aps():
-    from aps.utils.common import check_table_exist
-    if check_table_exist('django_apscheduler_func'):
-        from aps.service.discover_service import DiscoverService
-        DiscoverService.sync_aps_to_db()
+    from django_aps.service.discover_service import DiscoverService
+    DiscoverService().sync_aps_to_db()

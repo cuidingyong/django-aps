@@ -11,14 +11,17 @@
                     2023/7/11
 -------------------------------------------------
 """
+import json
+import pickle
 from typing import Text, Union
+
 
 
 def setup_module():
     import os
     import django
 
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_aps.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_aps1.settings')
     django.setup()
 
 
@@ -43,17 +46,18 @@ def test_add_job():
         },
         'timezone': 'Asia/Shanghai'
     }
-    module_path = 'aps.service.service_test'
+    module_path = 'django_aps.service.service_test'
     scheduler = BackgroundScheduler(**options)
     scheduler.start()
-    # cls = import_string('aps.service.service_test.ApsTest')
+    scheduler.remove_all_jobs()
+    # cls = import_string('django_aps.service.service_test.ApsTest')
     # func = cls().add1
-    # func = ref_to_obj('aps.service.service_test:ApsTest().add1')
+    # func = ref_to_obj('django_aps.service.service_test:ApsTest().add1')
     # obj_to_ref(func)
-    # __import__('aps.service.service_test', fromlist=('ApsTest',))
-    # exec('from aps.service.service_test import ApsTest')
+    # __import__('django_aps.service.service_test', fromlist=('ApsTest',))
+    # exec('from django_aps.service.service_test import ApsTest')
     # job = scheduler.add_job(func=cls.add1, kwargs={'a': 10, 'b': 3})
-    job = scheduler.add_job(func='aps.service.service_test:ApsTest.add1', args=('self',), kwargs={'a': 10, 'b': 3})
+    job = scheduler.add_job(func='django_aps.service.service_test:ApsTest.add1', args=('self',), kwargs={'a': 10, 'b': 3})
     # job = scheduler.add_job(func=eval(f'{attr}().add1'), kwargs={'a': 10, 'b': 3})
     print(job)
 
@@ -75,3 +79,10 @@ def test_trigger():
         second: Union[Text, None] = None
 
     ct = Cron(**params)
+
+
+def test_db():
+    from django_apscheduler.models import DjangoJob
+    job = DjangoJob.objects.get(id='1aa0ee9543174ae8bac4e28b96260306')
+    pickle.loads(job.job_state)
+    print(job)

@@ -1,19 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
--------------------------------------------------
-   File Name：      apscheduler_func_model_mapper
-   Description:
-   Author:          dingyong.cui
-   date：           2023/7/7
--------------------------------------------------
-   Change Activity:
-                    2023/7/7
--------------------------------------------------
+APScheduler func model mapper
 """
 from typing import Union, List, Dict
 
-from aps.models import ApschedulerFunc
+from django_aps.models import ApschedulerFunc
 
 
 def get_aps_funcs(name: str = None, **kwargs) -> Union[List, None]:
